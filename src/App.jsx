@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import * as d3 from 'd3';
+import {
+  SUPABASE_REST_URL,
+  SUPABASE_ANON_KEY
+} from './config';
 
-const SUPABASE_REST_URL = 'https://ccjnxndjojxrwhzrnbca.supabase.co/rest/v1';
-const SUPABASE_ANON_KEY =
-  import.meta.env.VITE_SUPABASE_ANON_KEY;
 const TABLE = 'readings';
 
 const fallback = [
