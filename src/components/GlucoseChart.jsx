@@ -50,6 +50,22 @@ export default function GlucoseChart({ readings = [] }) {
           return gradient;
         },
       },
+      {
+        label: 'Min Range',
+        data: labels.map(() => 70),
+        borderColor: 'rgba(34,197,94,.55)',
+        borderDash: [6, 6],
+        borderWidth: 2,
+        pointRadius: 0,
+      },
+      {
+        label: 'Max Range',
+        data: labels.map(() => 140),
+        borderColor: 'rgba(239,68,68,.55)',
+        borderDash: [6, 6],
+        borderWidth: 2,
+        pointRadius: 0,
+      },
     ],
   };
 
@@ -58,7 +74,9 @@ export default function GlucoseChart({ readings = [] }) {
     maintainAspectRatio: false,
     plugins: {
       legend: {
-        display: false,
+        labels: {
+          color: '#cbd5e1',
+        },
       },
       tooltip: {
         backgroundColor: '#0f172a',
