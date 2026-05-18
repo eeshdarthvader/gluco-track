@@ -43,28 +43,39 @@ export default function GlucoseChart({ readings = [] }) {
         backgroundColor: (context) => {
           const chart = context.chart;
           const { ctx, chartArea } = chart;
+
           if (!chartArea) return null;
-          const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
+
+          const gradient = ctx.createLinearGradient(
+            0,
+            chartArea.top,
+            0,
+            chartArea.bottom
+          );
+
           gradient.addColorStop(0, 'rgba(75,87,245,0.35)');
           gradient.addColorStop(1, 'rgba(75,87,245,0)');
+
           return gradient;
         },
       },
       {
-        label: 'Min Range',
+        label: 'Min Target (70)',
         data: labels.map(() => 70),
-        borderColor: 'rgba(34,197,94,.55)',
-        borderDash: [6, 6],
-        borderWidth: 2,
+        borderColor: '#22c55e',
+        borderDash: [10, 6],
+        borderWidth: 3,
         pointRadius: 0,
+        pointHoverRadius: 0,
       },
       {
-        label: 'Max Range',
+        label: 'Max Target (140)',
         data: labels.map(() => 140),
-        borderColor: 'rgba(239,68,68,.55)',
-        borderDash: [6, 6],
-        borderWidth: 2,
+        borderColor: '#ef4444',
+        borderDash: [10, 6],
+        borderWidth: 3,
         pointRadius: 0,
+        pointHoverRadius: 0,
       },
     ],
   };
@@ -72,12 +83,21 @@ export default function GlucoseChart({ readings = [] }) {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
+
     plugins: {
       legend: {
         labels: {
           color: '#cbd5e1',
+          boxWidth: 18,
+          boxHeight: 3,
+          padding: 18,
+          font: {
+            size: 12,
+            weight: '700',
+          },
         },
       },
+
       tooltip: {
         backgroundColor: '#0f172a',
         borderColor: '#334155',
@@ -86,27 +106,33 @@ export default function GlucoseChart({ readings = [] }) {
         titleColor: '#fff',
         bodyColor: '#cbd5e1',
         displayColors: false,
+
         callbacks: {
           label: (ctx) => `${ctx.raw} mg/dL`,
         },
       },
     },
+
     scales: {
       x: {
         grid: {
           display: false,
         },
+
         ticks: {
           color: '#94a3b8',
         },
       },
+
       y: {
-        min: 60,
+        min: 50,
         max: 180,
+
         ticks: {
           color: '#94a3b8',
           callback: (v) => `${v}`,
         },
+
         grid: {
           color: 'rgba(255,255,255,.06)',
         },
