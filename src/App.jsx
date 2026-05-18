@@ -26,6 +26,13 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
+function formatDate(d) {
+  return new Date(d).toLocaleDateString(undefined, {
+    month: 'short',
+    day: 'numeric',
+  });
+}
+
 function status(v) {
   return v < 70 ? 'Low' : v > 140 ? 'High' : 'In range';
 }
@@ -193,9 +200,7 @@ export default function App() {
       <section className="hero">
         <div>
           <div className="badge">Beta</div>
-
           <h1>GlucoTrack</h1>
-
           <p>
             Track blood sugar and visualize trends beautifully.
           </p>
@@ -242,11 +247,7 @@ export default function App() {
       )}
 
       <section className="tiles">
-        <Tile
-          label="Average"
-          value={stats.avg}
-          sub="mg/dL"
-        />
+        <Tile label="Average" value={stats.avg} sub="mg/dL" />
 
         <Tile
           label="In range"
@@ -324,6 +325,45 @@ export default function App() {
               </button>
             </div>
           </form>
+        </article>
+
+        <article className="panel history">
+          <div className="head">
+            <div>
+              <p>History</p>
+              <h2>Recent readings</h2>
+            </div>
+          </div>
+
+          {rows
+            .slice()
+            .reverse()
+            .slice(0, 8)
+            .map((r, i) => (
+              <div
+                className="reading"
+                key={`${r.date}-${i}`}
+              >
+                <div>
+                  <b>{formatDate(r.date)}</b>
+                  <small>{r.notes || 'No note'}</small>
+                </div>
+
+                <strong>{r.value}</strong>
+
+                <span
+                  className={
+                    status(r.value) === 'High'
+                      ? 'high'
+                      : status(r.value) === 'Low'
+                      ? 'low'
+                      : ''
+                  }
+                >
+                  {status(r.value)}
+                </span>
+              </div>
+            ))}
         </article>
       </section>
     </main>
