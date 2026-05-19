@@ -9,13 +9,10 @@ import GlucoseChart from './components/GlucoseChart';
 const TABLE = 'readings';
 
 const fallback = [
-  { date: '2026-05-11', value: 94, notes: 'Fasting' },
-  { date: '2026-05-12', value: 116, notes: 'Before breakfast' },
-  { date: '2026-05-13', value: 142, notes: 'After lunch' },
-  { date: '2026-05-14', value: 108, notes: 'Fasting' },
-  { date: '2026-05-15', value: 168, notes: 'After lunch' },
-  { date: '2026-05-16', value: 126, notes: 'After walk' },
-  { date: '2026-05-17', value: 103, notes: 'Before breakfast' },
+  { date: '2026-05-11', time: '08:30', value: 94, notes: 'Fasting' },
+  { date: '2026-05-12', time: '09:10', value: 116, notes: 'Before breakfast' },
+  { date: '2026-05-13', time: '13:40', value: 142, notes: 'After lunch' },
+  { date: '2026-05-14', time: '07:55', value: 108, notes: 'Fasting' }
 ];
 
 const today = new Date().toISOString().slice(0, 10);
@@ -26,11 +23,23 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-function formatDate(d) {
-  return new Date(d).toLocaleDateString(undefined, {
+function getCurrentTime() {
+  const now = new Date();
+
+  return now.toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+}
+
+function formatDate(date, time) {
+  const formatted = new Date(date).toLocaleDateString(undefined, {
     month: 'short',
     day: 'numeric',
   });
+
+  return time ? `${formatted} • ${time}` : formatted;
 }
 
 function status(v) {
@@ -53,8 +62,10 @@ export default function App() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+
   const [form, setForm] = useState({
     date: today,
+    time: '',
     value: '',
     notes: '',
   });
@@ -65,7 +76,7 @@ export default function App() {
 
     try {
       const res = await fetch(
-        `${SUPABASE_REST_URL}/${TABLE}?select=date,value,notes&order=date.asc`,
+        `${SUPABASE_REST_URL}/${TABLE}?select=date,time,value,notes&order=date.asc`,
         { headers }
       );
 
@@ -78,6 +89,7 @@ export default function App() {
       const parsed = data
         .map(r => ({
           date: r.date,
+          time: r.time || '',
           value: Number(r.value),
           notes: r.notes || '',
         }))
@@ -158,6 +170,8 @@ export default function App() {
       return;
     }
 
+    const finalTime = form.time || getCurrentTime();
+
     try {
       const res = await fetch(
         `${SUPABASE_REST_URL}/${TABLE}`,
@@ -169,6 +183,7 @@ export default function App() {
           },
           body: JSON.stringify({
             date: form.date,
+            time: finalTime,
             value,
             notes: form.notes || '',
           }),
@@ -181,6 +196,7 @@ export default function App() {
 
       setForm({
         date: today,
+        time: '',
         value: '',
         notes: '',
       });
@@ -205,24 +221,15 @@ export default function App() {
           </p>
 
           <div className="hero-actions">
-            <button
-              className="cta primary"
-              onClick={scrollToLog}
-            >
+            <button className="cta primary" onClick={scrollToLog}>
               Add reading
             </button>
 
-            <button
-              className="cta secondary"
-              onClick={scrollToInsights}
-            >
+            <button className="cta secondary" onClick={scrollToInsights}>
               View insights
             </button>
 
-            <button
-              className="cta tertiary"
-              onClick={load}
-            >
+            <button className="cta tertiary" onClick={load}>
               {loading ? 'Syncing...' : 'Refresh'}
             </button>
           </div>
@@ -236,14 +243,6 @@ export default function App() {
           </small>
         </aside>
       </section>
-
-      {error && (
-        <div className="notice error">{error}</div>
-      )}
-
-      {success && (
-        <div className="notice success">{success}</div>
-      )}
 
       <section className="tiles">
         <Tile label="Average" value={stats.avg} sub="mg/dL" />
@@ -297,6 +296,14 @@ export default function App() {
               onChange={updateForm}
             />
 
+            <label>Time (optional)</label>
+            <input
+              type="time"
+              name="time"
+              value={form.time}
+              onChange={updateForm}
+            />
+
             <label>Blood sugar</label>
             <input
               name="value"
@@ -339,13 +346,10 @@ export default function App() {
             .reverse()
             .slice(0, 8)
             .map((r, i) => (
-              <div
-                className="reading"
-                key={`${r.date}-${i}`}
-              >
+              <div className="reading" key={`${r.date}-${i}`}>
                 <div>
-                  <b>{formatDate(r.date)}</b>
-                  {' '}<small>{r.notes || 'No note'}</small>
+                  <b>{formatDate(r.date, r.time)}</b>
+                  <small>{r.notes || 'No note'}</small>
                 </div>
 
                 <strong>{r.value}</strong>
