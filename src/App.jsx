@@ -321,7 +321,7 @@ export default function App() {
                 type="submit"
                 disabled={saving}
               >
-                {saving ? 'Saving...' : '+ Add reading'}
+                {saving ? 'Saving...' : 'Add reading'}
               </button>
             </div>
           </form>
