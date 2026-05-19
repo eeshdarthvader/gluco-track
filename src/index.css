@@ -61,7 +61,6 @@ button,input{
 .hero h1{
     font-size:82px;
     line-height:.92;
-    letter-spacing:-.09em;
     margin:18px 0;
     font-weight:900
 }
@@ -111,13 +110,15 @@ button,input{
     justify-content:center;
     gap:18px;
     box-shadow:0 20px 40px rgba(75,87,245,.28)
+    padding:0 18px;
 }
 .cta.primary:after,.add-btn:after{
     content:'+';
     color:#d9ff00;
     font-size:36px;
     margin-left:18px;
-    font-weight:900
+    font-weight:900;
+    margin-bottom:2px;
 }
 .secondary,.tertiary,.refresh-chip{
     height:48px;
@@ -178,7 +179,6 @@ button,input{
 .head h2,.form h2,.settings h2{
     margin:6px 0 0;
     font-size:40px;
-    letter-spacing:-.08em;
     font-weight:900
 }
 .chart-wrap{
