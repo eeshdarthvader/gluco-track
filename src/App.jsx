@@ -346,7 +346,7 @@ export default function App() {
               >
                 <div>
                   <b>{formatDate(r.date)}</b>
-                  <small>{r.notes || 'No note'}</small>
+                  {' '}<small>{r.notes || 'No note'}</small>
                 </div>
 
                 <strong>{r.value}</strong>
