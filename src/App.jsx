@@ -278,7 +278,7 @@ export default function App() {
               <h2>Glucose over time</h2>
             </div>
 
-            <span>Target 70-140 mg/dL</span>
+            <span className="target">Target 70-140 mg/dL</span>
           </div>
 
           <GlucoseChart readings={rows} />
