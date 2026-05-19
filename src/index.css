@@ -49,7 +49,10 @@ canvas{max-width:100%!important}
     overflow:hidden
 }
 .subheading-insights{
-    color: #ffffffb8
+    color: #ffffffb8;
+}
+.target {
+    color: #d9ff00b3;
 }
 .hero:before{
     content:'';
