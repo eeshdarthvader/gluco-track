@@ -210,7 +210,7 @@ export default function App() {
               className="cta primary"
               onClick={scrollToLog}
             >
-              + Add reading
+              Add reading
             </button>
 
             <button
