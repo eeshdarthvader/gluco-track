@@ -349,7 +349,10 @@ export default function App() {
               <div className="reading" key={`${r.date}-${i}`}>
                 <div>
                   <b>{formatDate(r.date, r.time)}</b>
-                  <small>{r.notes || 'No note'}</small>
+
+                  <small style={{ marginTop: 6, display: 'block' }}>
+                    {r.notes || 'No note'}
+                  </small>
                 </div>
 
                 <strong>{r.value}</strong>
