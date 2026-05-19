@@ -199,7 +199,6 @@ export default function App() {
     <main className="app">
       <section className="hero">
         <div>
-          <div className="badge">Beta</div>
           <h1>GlucoTrack</h1>
           <p>
             Track blood sugar and visualize trends beautifully.
