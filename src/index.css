@@ -48,6 +48,9 @@ canvas{max-width:100%!important}
     position:relative;
     overflow:hidden
 }
+.subheading-insights{
+    color: #d9ff00
+}
 .hero:before{
     content:'';
     position:absolute;
