@@ -42,7 +42,7 @@ function Tile({ label, value, sub, tone = '' }) {
     <article className={`tile ${tone}`}>
       <p>{label}</p>
       <strong>{value}</strong>
-      <span>{sub}</span>
+      <span className="subheading-insights">{sub}</span>
     </article>
   );
 }
